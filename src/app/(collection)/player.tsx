@@ -7,23 +7,27 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import dummyBooks from "@/dummyBooks";
 import PlaybackBar from "@/components/PlayBackBar";
 import { useAudioPlayer, useAudioPlayerStatus } from "expo-audio";
+import { usePlayer } from "@/providers/PlayerProvider";
 
 export default function PlayerScreen() {
-  // fetch azura cast
+  // states defined
   const API_URL = "https://demo.azuracast.com/api/nowplaying";
   const [title, setTitle] = useState("");
   const [duration, setDuration] = useState(0);
   const [elapsed, setElapsed] = useState(0);
 
+  //fetches api every 15 seconds
   useEffect(() => {
     fetchRadio(); // initial fetch
 
     const interval = setInterval(() => {
-      fetchRadio(); // refetch every 10 sec
+      fetchRadio(); // refetch every 15 sec
     }, 15000);
 
     return () => clearInterval(interval);
   }, []);
+
+  //controls the placyback bar
   useEffect(() => {
     const timer = setInterval(() => {
       setElapsed((prev) => {
@@ -37,6 +41,7 @@ export default function PlayerScreen() {
     return () => clearInterval(timer);
   }, [duration]);
 
+  // fetch logic
   const fetchRadio = async () => {
     try {
       const response = await fetch(API_URL);
@@ -45,6 +50,7 @@ export default function PlayerScreen() {
       const station = data[0]; // IMPORTANT
       setTitle(station.now_playing.song.title);
       setDuration(station.now_playing.duration);
+
       // Only update elapsed if difference is big (like new song)
       setElapsed((prev) => {
         const apiElapsed = station.now_playing.elapsed;
@@ -61,13 +67,14 @@ export default function PlayerScreen() {
   };
 
   const book = dummyBooks[0];
-  const player = useAudioPlayer({
-    uri: "https://demo.azuracast.com/listen/azuratest_radio/radio.mp3",
-  });
+  const { player } = usePlayer();
+  // const player = useAudioPlayer({
+  //   uri: "https://demo.azuracast.com/listen/azuratest_radio/radio.mp3",
+  // });
   const playerStatus = useAudioPlayerStatus(player);
-  console.log(JSON.stringify(playerStatus, null, 2));
+
   return (
-    <SafeAreaView className="flex-1 bg-gray-900 p-4 py-10 gap-4">
+    <SafeAreaView className="flex-1  p-4 py-10 gap-4">
       <Pressable
         onPress={() => router.back()}
         className="absolute top-16 left-4 bg-gray-800 rounded-full
@@ -84,7 +91,7 @@ export default function PlayerScreen() {
         <Text className="text-white text-2xl font-bold  text-center">
           {title}
         </Text>
-        <PlaybackBar value={duration > 0 ? elapsed / duration : 0} />
+        <PlaybackBar currentTime={elapsed} duration={duration} />
 
         <View className="flex-row items-center justify-between">
           <Ionicons name="play-skip-back" size={24} color="white" />

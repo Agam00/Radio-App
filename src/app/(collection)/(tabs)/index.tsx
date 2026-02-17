@@ -1,5 +1,4 @@
-import { StatusBar } from "expo-status-bar";
-import { View, FlatList } from "react-native";
+import { FlatList } from "react-native";
 
 import BookListItem from "@/components/BookListItem";
 
