@@ -1,15 +1,12 @@
-import { FlatList } from "react-native";
+import { View } from "react-native";
 
 import BookListItem from "@/components/BookListItem";
-
-import books from "@/dummyBooks";
-
 export default function App() {
   return (
-    <FlatList
-      data={books}
-      contentContainerClassName="gap-4 p-2"
-      renderItem={({ item }) => <BookListItem book={item} />}
-    />
+    <View className="mt-10 flex-1 gap-7 p-4 ">
+      <BookListItem title="Charcha" />
+      <BookListItem title="kirantan" />
+      <BookListItem title="Bhajan" />
+    </View>
   );
 }

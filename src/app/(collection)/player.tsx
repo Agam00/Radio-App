@@ -4,14 +4,15 @@ import { Entypo, Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import dummyBooks from "@/dummyBooks";
 import PlaybackBar from "@/components/PlayBackBar";
-import { useAudioPlayer, useAudioPlayerStatus } from "expo-audio";
+import { useAudioPlayerStatus } from "expo-audio";
 import { usePlayer } from "@/providers/PlayerProvider";
 
 export default function PlayerScreen() {
+  const { player, STREAM_URL, play, pause, API_URL } = usePlayer();
+
   // states defined
-  const API_URL = "https://demo.azuracast.com/api/nowplaying";
+
   const [title, setTitle] = useState("");
   const [duration, setDuration] = useState(0);
   const [elapsed, setElapsed] = useState(0);
@@ -47,7 +48,7 @@ export default function PlayerScreen() {
       const response = await fetch(API_URL);
       const data = await response.json();
 
-      const station = data[0]; // IMPORTANT
+      const station = data; // IMPORTANT
       setTitle(station.now_playing.song.title);
       setDuration(station.now_playing.duration);
 
@@ -66,12 +67,25 @@ export default function PlayerScreen() {
     }
   };
 
-  const book = dummyBooks[0];
-  const { player } = usePlayer();
-  // const player = useAudioPlayer({
-  //   uri: "https://demo.azuracast.com/listen/azuratest_radio/radio.mp3",
-  // });
   const playerStatus = useAudioPlayerStatus(player);
+
+  const handleLiveToggle = async () => {
+    try {
+      if (playerStatus.playing) {
+        // Pause only (no stop available)
+        await pause();
+      } else {
+        // Force fresh LIVE stream connection
+        await player.replace({
+          uri: STREAM_URL,
+        });
+
+        await play();
+      }
+    } catch (err) {
+      console.log("Playback Error:", err);
+    }
+  };
 
   return (
     <SafeAreaView className="flex-1  p-4 py-10 gap-4">
@@ -83,7 +97,7 @@ export default function PlayerScreen() {
         <Entypo name="chevron-down" size={24} color="white" />
       </Pressable>
       <Image
-        source={{ uri: book.thumbnail_url }}
+        source={require("../../../assets/sarkarshri.jpg")}
         className="w-[95%] aspect-square rounded-[30px] self-center mt-12"
       />
 
@@ -97,9 +111,7 @@ export default function PlayerScreen() {
           <Ionicons name="play-skip-back" size={24} color="white" />
           <Ionicons name="play-back" size={24} color="white" />
           <Ionicons
-            onPress={() =>
-              playerStatus.playing ? player.pause() : player.play()
-            }
+            onPress={handleLiveToggle}
             name={playerStatus.playing ? "pause" : "play"}
             size={50}
             color="white"

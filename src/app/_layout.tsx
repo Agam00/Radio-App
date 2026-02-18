@@ -1,4 +1,4 @@
-import { Slot } from "expo-router";
+import { Stack } from "expo-router";
 import "../../global.css";
 import { DarkTheme, ThemeProvider } from "@react-navigation/native";
 import PlayerProvider from "@/providers/PlayerProvider";
@@ -17,7 +17,15 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={theme}>
       <PlayerProvider>
-        <Slot />
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            animation: "fade", // smoother transition
+            contentStyle: {
+              backgroundColor: "#010D1A", // 🚀 removes white flash
+            },
+          }}
+        />
       </PlayerProvider>
     </ThemeProvider>
   );

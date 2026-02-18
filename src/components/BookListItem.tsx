@@ -1,30 +1,26 @@
 import { Text, View, Image, Pressable } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { Link } from "expo-router";
-
-type Book = {
-  id: string;
-  title: string;
-  author: string;
-  audio_url: string;
-  thumbnail_url?: string;
-};
+import { usePlayer } from "@/providers/PlayerProvider";
 
 type BookListItemProps = {
-  book: Book;
+  title: string;
 };
 
-export default function BookListItem({ book }: BookListItemProps) {
+export default function BookListItem({ title }: BookListItemProps) {
+  const { setSelectedTitle } = usePlayer();
   return (
     <Link href="/player" asChild>
-      <Pressable className="flex-row gap-4 items-center">
+      <Pressable
+        onPress={() => setSelectedTitle(title)}
+        className="flex-row gap-4 items-center"
+      >
         <Image
-          source={{ uri: book.thumbnail_url }}
+          source={require("../../assets/sarkarshri.jpg")}
           className="w-16 aspect-square rounded-md"
         />
         <View className="gap-1 flex-1">
-          <Text className="text-2xl font-bold text-gray-100">{book.title}</Text>
-          <Text className="text-gray-400">{book.author}</Text>
+          <Text className="text-2xl font-bold text-gray-100">{title}</Text>
         </View>
         <AntDesign name="play-circle" size={24} color="gainsboro" />
       </Pressable>
