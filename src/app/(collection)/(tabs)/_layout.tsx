@@ -10,7 +10,6 @@ export default function TabLayout() {
     <Tabs
       tabBar={(props) => (
         <>
-          {/* <FloatingPlayer /> */}
           {STREAM_URL ? <FloatingPlayer /> : null}
           <BottomTabBar {...props} />
         </>
@@ -28,7 +27,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="discover"
         options={{
-          title: "Discover",
+          title: "About Us",
           tabBarIcon: ({ color, size }) => (
             <Entypo name="user" size={size} color={color} />
           ),

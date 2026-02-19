@@ -13,7 +13,7 @@ export default function BookListItem({ title }: BookListItemProps) {
     <Link href="/player" asChild>
       <Pressable
         onPress={() => setSelectedTitle(title)}
-        className="flex-row gap-4 items-center"
+        className="flex-row gap-4 items-center bg-slate-800 rounded-lg p-4"
       >
         <Image
           source={require("../../assets/sarkarshri.jpg")}

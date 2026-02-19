@@ -13,6 +13,8 @@ type PlayerContextType = {
   setSelectedTitle: (book: any) => void;
   STREAM_URL: string;
   API_URL: string;
+  SONG_REQUEST: string;
+  HISTORY: string;
   play: () => void;
   pause: () => void;
 };
@@ -23,17 +25,25 @@ export default function PlayerProvider({ children }: PropsWithChildren) {
   const [selectedTitle, setSelectedTitle] = useState(null);
   const [STREAM_URL, setStreamUrl] = useState("");
   const [API_URL, setApiUrl] = useState("");
+  const [SONG_REQUEST, setSongRequest] = useState("");
+  const [HISTORY, setHistory] = useState("");
 
   useEffect(() => {
     if (selectedTitle === "Charcha") {
       setStreamUrl(process.env.EXPO_PUBLIC_STREAM_CHARCHA_URL);
       setApiUrl(process.env.EXPO_PUBLIC_STREAM_CHARCHA_API);
+      setSongRequest(process.env.EXPO_PUBLIC_STREAM_CHARCHA_REQUEST);
+      setHistory(process.env.EXPO_PUBLIC_STREAM_CHARCHA_HISTORY);
     } else if (selectedTitle === "Bhajan") {
       setStreamUrl(process.env.EXPO_PUBLIC_STREAM_BHAJAN_URL);
       setApiUrl(process.env.EXPO_PUBLIC_STREAM_BHAJAN_API);
+      setSongRequest(process.env.EXPO_PUBLIC_STREAM_BHAJAN_REQUEST);
+      setHistory(process.env.EXPO_PUBLIC_STREAM_BHAJAN_HISTORY);
     } else if (selectedTitle === "Kirantan") {
       setStreamUrl(process.env.EXPO_PUBLIC_STREAM_KIRANTAN_URL);
-      setApiUrl(process.env.EXPO_PUBLIC_STREAM_BHAJAN_API);
+      setApiUrl(process.env.EXPO_PUBLIC_STREAM_KIRANTAN_API);
+      setSongRequest(process.env.EXPO_PUBLIC_STREAM_KIRANTAN_REQUEST);
+      setHistory(process.env.EXPO_PUBLIC_STREAM_KIRANTAN_HISTORY);
     }
   }, [selectedTitle]);
 
@@ -75,6 +85,8 @@ export default function PlayerProvider({ children }: PropsWithChildren) {
         API_URL,
         play,
         pause,
+        SONG_REQUEST,
+        HISTORY,
       }}
     >
       {children}

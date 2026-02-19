@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, Pressable, Image } from "react-native";
+import { View, Text, Pressable, Image, StyleSheet } from "react-native";
 import { Entypo, Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -8,8 +8,13 @@ import PlaybackBar from "@/components/PlayBackBar";
 import { useAudioPlayerStatus } from "expo-audio";
 import { usePlayer } from "@/providers/PlayerProvider";
 
+import PopUp from "@/components/Popup";
+
 export default function PlayerScreen() {
-  const { player, STREAM_URL, play, pause, API_URL } = usePlayer();
+  // context variables
+
+  const { player, STREAM_URL, play, pause, API_URL, selectedTitle } =
+    usePlayer();
 
   // states defined
 
@@ -48,11 +53,12 @@ export default function PlayerScreen() {
       const response = await fetch(API_URL);
       const data = await response.json();
 
-      const station = data; // IMPORTANT
-      setTitle(station.now_playing.song.title);
+      const station = data;
+      setTitle(station.now_playing.song.text);
       setDuration(station.now_playing.duration);
 
       // Only update elapsed if difference is big (like new song)
+
       setElapsed((prev) => {
         const apiElapsed = station.now_playing.elapsed;
 
@@ -72,10 +78,11 @@ export default function PlayerScreen() {
   const handleLiveToggle = async () => {
     try {
       if (playerStatus.playing) {
-        // Pause only (no stop available)
+        // Pause
         await pause();
       } else {
         // Force fresh LIVE stream connection
+
         await player.replace({
           uri: STREAM_URL,
         });
@@ -96,12 +103,16 @@ export default function PlayerScreen() {
       >
         <Entypo name="chevron-down" size={24} color="white" />
       </Pressable>
+      <Text className="text-white text-2xl font-bold  text-center self-center">
+        {selectedTitle}
+      </Text>
       <Image
         source={require("../../../assets/sarkarshri.jpg")}
-        className="w-[95%] aspect-square rounded-[30px] self-center mt-12"
+        className="w-[95%] aspect-square rounded-[30px] self-center mt-7"
       />
 
       <View className="gap-8 flex-1 justify-end">
+        <PopUp />
         <Text className="text-white text-2xl font-bold  text-center">
           {title}
         </Text>
