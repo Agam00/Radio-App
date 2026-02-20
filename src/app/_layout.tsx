@@ -9,7 +9,7 @@ const theme = {
     ...DarkTheme.colors,
     background: "#010D1A",
     card: "#010D1A",
-    primary: "white",
+    primary: "#FB923C",
   },
 };
 
@@ -20,9 +20,9 @@ export default function RootLayout() {
         <Stack
           screenOptions={{
             headerShown: false,
-            animation: "fade", // smoother transition
+            animation: "fade",
             contentStyle: {
-              backgroundColor: "#010D1A", // 🚀 removes white flash
+              backgroundColor: "#010D1A",
             },
           }}
         />

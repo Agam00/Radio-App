@@ -12,7 +12,7 @@ export default function FloatingPlayer() {
   const handleLiveToggle = async () => {
     try {
       if (playerStatus.playing) {
-        // Pause only (no stop available)
+        // Pause only
         await pause();
       } else {
         // Force fresh LIVE stream connection
@@ -43,6 +43,7 @@ export default function FloatingPlayer() {
           size={24}
           color="gainsboro"
           onPress={handleLiveToggle}
+          // onPress={() => (playerStatus.playing ? pause() : play())}
         />
       </Pressable>
     </Link>

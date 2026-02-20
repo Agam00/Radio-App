@@ -86,11 +86,11 @@ const styles = StyleSheet.create({
 
   buttonRow: {
     flexDirection: "row",
-    gap: 15, // spacing between buttons
+    gap: 15,
   },
 
   button: {
-    backgroundColor: "#FB923C", // dark slate
+    backgroundColor: "#FB923C",
     paddingVertical: 16,
     paddingHorizontal: 24,
     borderRadius: 12,

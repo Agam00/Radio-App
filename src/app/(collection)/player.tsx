@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, Pressable, Image, StyleSheet } from "react-native";
+import { View, Text, Pressable, Image } from "react-native";
 import { Entypo, Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -123,9 +123,11 @@ export default function PlayerScreen() {
           <Ionicons name="play-back" size={24} color="white" />
           <Ionicons
             onPress={handleLiveToggle}
+            // onPress={() => (playerStatus.playing ? pause() : play())}
             name={playerStatus.playing ? "pause" : "play"}
             size={50}
-            color="white"
+            // color="orange"
+            className="bg-orange-400 rounded-md "
           />
           <Ionicons name="play-forward" size={24} color="white" />
           <Ionicons name="play-skip-forward" size={24} color="white" />
