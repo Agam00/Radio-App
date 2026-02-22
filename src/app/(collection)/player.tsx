@@ -13,12 +13,11 @@ import PopUp from "@/components/Popup";
 export default function PlayerScreen() {
   // context variables
 
-  const { player, STREAM_URL, play, pause, API_URL, selectedTitle } =
-    usePlayer();
+  const { player, play, pause, API_URL, selectedTitle } = usePlayer();
 
   // states defined
 
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState("Station offline");
   const [duration, setDuration] = useState(0);
   const [elapsed, setElapsed] = useState(0);
 
@@ -51,9 +50,12 @@ export default function PlayerScreen() {
   const fetchRadio = async () => {
     try {
       const response = await fetch(API_URL);
-      const data = await response.json();
 
-      const station = data;
+      if (!response.ok) throw new Error("Offline");
+      const station = await response.json();
+
+      // const station = data;
+      // console.log(station.mount[2].url);
       setTitle(station.now_playing.song.text);
       setDuration(station.now_playing.duration);
 
@@ -68,31 +70,14 @@ export default function PlayerScreen() {
 
         return prev; // keep smooth timer
       });
-    } catch (error) {
-      console.log("Error:", error);
+    } catch {
+      setTitle("Station offline");
+      setDuration(0);
+      setElapsed(0);
     }
   };
 
   const playerStatus = useAudioPlayerStatus(player);
-
-  const handleLiveToggle = async () => {
-    try {
-      if (playerStatus.playing) {
-        // Pause
-        await pause();
-      } else {
-        // Force fresh LIVE stream connection
-
-        await player.replace({
-          uri: STREAM_URL,
-        });
-
-        await play();
-      }
-    } catch (err) {
-      console.log("Playback Error:", err);
-    }
-  };
 
   return (
     <SafeAreaView className="flex-1  p-4 py-10 gap-4">
@@ -122,11 +107,9 @@ export default function PlayerScreen() {
           <Ionicons name="play-skip-back" size={24} color="white" />
           <Ionicons name="play-back" size={24} color="white" />
           <Ionicons
-            onPress={handleLiveToggle}
-            // onPress={() => (playerStatus.playing ? pause() : play())}
+            onPress={() => (playerStatus.playing ? pause() : play())}
             name={playerStatus.playing ? "pause" : "play"}
             size={50}
-            // color="orange"
             className="bg-orange-400 rounded-md "
           />
           <Ionicons name="play-forward" size={24} color="white" />

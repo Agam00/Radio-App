@@ -15,6 +15,7 @@ type PlayerContextType = {
   API_URL: string;
   SONG_REQUEST: string;
   HISTORY: string;
+  setStreamUrl: any;
   play: () => void;
   pause: () => void;
 };
@@ -47,11 +48,12 @@ export default function PlayerProvider({ children }: PropsWithChildren) {
     }
   }, [selectedTitle]);
 
-  const player = useAudioPlayer({
-    uri: STREAM_URL,
-  });
+  // const player = useAudioPlayer({
+  //   uri: STREAM_URL,
+  // });
+  const player = useAudioPlayer(STREAM_URL ? { uri: STREAM_URL } : null);
 
-  // ✅ Enable background + silent mode
+  // Enable background + silent mode
   useEffect(() => {
     async function setupAudio() {
       await setAudioModeAsync({
@@ -65,8 +67,18 @@ export default function PlayerProvider({ children }: PropsWithChildren) {
   }, []);
 
   const play = () => {
-    player.setActiveForLockScreen(true);
+    // player.setActiveForLockScreen(true);
+    // player.play();
 
+    if (!STREAM_URL) return; // Prevent playing if no station is selected
+
+    // 1. Append timestamp to bypass device cache and force the live edge
+    const freshStreamUrl = `${STREAM_URL}?t=${Date.now()}`;
+
+    // 2. Load the fresh stream into the player
+    player.replace({ uri: freshStreamUrl });
+
+    player.setActiveForLockScreen(true);
     player.play();
   };
 
@@ -87,6 +99,7 @@ export default function PlayerProvider({ children }: PropsWithChildren) {
         pause,
         SONG_REQUEST,
         HISTORY,
+        setStreamUrl,
       }}
     >
       {children}

@@ -5,27 +5,10 @@ import { useAudioPlayerStatus } from "expo-audio";
 import { usePlayer } from "@/providers/PlayerProvider";
 
 export default function FloatingPlayer() {
-  const { player, selectedTitle, STREAM_URL, play, pause } = usePlayer();
+  const { player, selectedTitle, play, pause } = usePlayer();
 
   const playerStatus = useAudioPlayerStatus(player);
 
-  const handleLiveToggle = async () => {
-    try {
-      if (playerStatus.playing) {
-        // Pause only
-        await pause();
-      } else {
-        // Force fresh LIVE stream connection
-        await player.replace({
-          uri: STREAM_URL,
-        });
-
-        await play();
-      }
-    } catch (err) {
-      console.log("Playback Error:", err);
-    }
-  };
   return (
     <Link href="/player" asChild>
       <Pressable className="flex-row gap-4 items-center p-2 bg-slate-900">
@@ -42,8 +25,7 @@ export default function FloatingPlayer() {
           name={playerStatus.playing ? "pause" : "play-circle"}
           size={24}
           color="gainsboro"
-          onPress={handleLiveToggle}
-          // onPress={() => (playerStatus.playing ? pause() : play())}
+          onPress={() => (playerStatus.playing ? pause() : play())}
         />
       </Pressable>
     </Link>
