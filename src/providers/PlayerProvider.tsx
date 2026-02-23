@@ -48,6 +48,16 @@ export default function PlayerProvider({ children }: PropsWithChildren) {
       setApiUrl(process.env.EXPO_PUBLIC_STREAM_KIRANTAN_API);
       setSongRequest(process.env.EXPO_PUBLIC_STREAM_KIRANTAN_REQUEST);
       setHistory(process.env.EXPO_PUBLIC_STREAM_KIRANTAN_HISTORY);
+    } else if (selectedTitle === "Shri Tartam Path") {
+      setStreamUrl(process.env.EXPO_PUBLIC_STREAM_KIRANTAN_URL);
+      setApiUrl(process.env.EXPO_PUBLIC_STREAM_KIRANTAN_API);
+      setSongRequest("");
+      setHistory("");
+    } else if (selectedTitle === "Shri Kuljam Swroop Sahib") {
+      setStreamUrl(process.env.EXPO_PUBLIC_STREAM_KIRANTAN_URL);
+      setApiUrl(process.env.EXPO_PUBLIC_STREAM_KIRANTAN_API);
+      setSongRequest("");
+      setHistory("");
     }
   }, [selectedTitle]);
 

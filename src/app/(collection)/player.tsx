@@ -55,8 +55,6 @@ export default function PlayerScreen() {
       if (!response.ok) throw new Error("Offline");
       const station = await response.json();
 
-      // const station = data;
-      // console.log(station.mount[2].url);
       setTitle(station.now_playing.song.text);
       setDuration(station.now_playing.duration);
 
@@ -81,7 +79,7 @@ export default function PlayerScreen() {
   const playerStatus = useAudioPlayerStatus(player);
 
   return (
-    <SafeAreaView className="flex-1  p-4 py-10 gap-4">
+    <SafeAreaView className="flex-1 p-4 py-10 gap-4">
       <Pressable
         onPress={() => router.back()}
         className="absolute top-16 left-4 bg-gray-800 rounded-full
