@@ -5,24 +5,39 @@ import { usePlayer } from "@/providers/PlayerProvider";
 
 type BookListItemProps = {
   title: string;
+  path: string;
 };
+export default function BookListItem({ title, path }: BookListItemProps) {
+  const { setSelectedTitle, setImagePath, imagePath } = usePlayer();
 
-export default function BookListItem({ title }: BookListItemProps) {
-  const { setSelectedTitle } = usePlayer();
   return (
     <Link href="/player" asChild>
       <Pressable
-        onPress={() => setSelectedTitle(title)}
-        className="flex-row gap-4 items-center bg-slate-800 rounded-lg p-4"
+        onPress={() => {
+          setSelectedTitle(title);
+          setImagePath(path);
+        }}
+        className="bg-slate-800 rounded-2xl p-4 mb-4 w-[48%] "
+        style={({ pressed }) => [
+          {
+            opacity: pressed ? 0.85 : 1,
+          },
+        ]}
       >
+        {/* Image on Top */}
         <Image
-          source={require("../../assets/sarkarshri.jpg")}
-          className="w-16 aspect-square rounded-md"
+          source={{ uri: path }}
+          className="w-full h-36 rounded-xl"
+          resizeMode="cover"
         />
-        <View className="gap-1 flex-1">
-          <Text className="text-2xl font-bold text-gray-100">{title}</Text>
+
+        {/* Title */}
+        <Text className="text-white text-2xl font-semibold mt-5">{title}</Text>
+
+        {/* Play Button */}
+        <View className="mt-3 items-end ">
+          <AntDesign name="arrow-right" size={30} color="white" />
         </View>
-        <AntDesign name="play-circle" size={24} color="gainsboro" />
       </Pressable>
     </Link>
   );

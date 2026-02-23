@@ -13,7 +13,8 @@ import PopUp from "@/components/Popup";
 export default function PlayerScreen() {
   // context variables
 
-  const { player, play, pause, API_URL, selectedTitle } = usePlayer();
+  const { player, play, pause, API_URL, selectedTitle, imagePath } =
+    usePlayer();
 
   // states defined
 
@@ -92,7 +93,7 @@ export default function PlayerScreen() {
         {selectedTitle}
       </Text>
       <Image
-        source={require("../../../assets/sarkarshri.jpg")}
+        source={{ uri: imagePath }}
         className="w-[95%] aspect-square rounded-[30px] self-center mt-7"
       />
 

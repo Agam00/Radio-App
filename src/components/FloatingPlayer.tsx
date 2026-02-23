@@ -5,7 +5,7 @@ import { useAudioPlayerStatus } from "expo-audio";
 import { usePlayer } from "@/providers/PlayerProvider";
 
 export default function FloatingPlayer() {
-  const { player, selectedTitle, play, pause } = usePlayer();
+  const { player, selectedTitle, play, pause, imagePath } = usePlayer();
 
   const playerStatus = useAudioPlayerStatus(player);
 
@@ -13,7 +13,7 @@ export default function FloatingPlayer() {
     <Link href="/player" asChild>
       <Pressable className="flex-row gap-4 items-center p-2 bg-slate-900">
         <Image
-          source={require("../../assets/sarkarshri.jpg")}
+          source={{ uri: imagePath }}
           className="w-16 aspect-square rounded-md"
         />
         <View className="gap-1 flex-1">
@@ -24,7 +24,7 @@ export default function FloatingPlayer() {
         <AntDesign
           name={playerStatus.playing ? "pause" : "play-circle"}
           size={24}
-          color="gainsboro"
+          color="#FB923C"
           onPress={() => (playerStatus.playing ? pause() : play())}
         />
       </Pressable>

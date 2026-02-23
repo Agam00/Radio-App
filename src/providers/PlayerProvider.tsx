@@ -16,6 +16,8 @@ type PlayerContextType = {
   SONG_REQUEST: string;
   HISTORY: string;
   setStreamUrl: any;
+  setImagePath: any;
+  imagePath: string;
   play: () => void;
   pause: () => void;
 };
@@ -28,6 +30,7 @@ export default function PlayerProvider({ children }: PropsWithChildren) {
   const [API_URL, setApiUrl] = useState("");
   const [SONG_REQUEST, setSongRequest] = useState("");
   const [HISTORY, setHistory] = useState("");
+  const [imagePath, setImagePath] = useState("");
 
   useEffect(() => {
     if (selectedTitle === "Charcha") {
@@ -48,9 +51,6 @@ export default function PlayerProvider({ children }: PropsWithChildren) {
     }
   }, [selectedTitle]);
 
-  // const player = useAudioPlayer({
-  //   uri: STREAM_URL,
-  // });
   const player = useAudioPlayer(STREAM_URL ? { uri: STREAM_URL } : null);
 
   // Enable background + silent mode
@@ -100,6 +100,8 @@ export default function PlayerProvider({ children }: PropsWithChildren) {
         SONG_REQUEST,
         HISTORY,
         setStreamUrl,
+        imagePath,
+        setImagePath,
       }}
     >
       {children}
