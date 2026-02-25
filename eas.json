@@ -9,7 +9,31 @@
       "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_STREAM_BHAJAN_URL": "https://radio.agamarora.site/listen/bhajan/mobile.mp3",
+        "EXPO_PUBLIC_STREAM_KIRANTAN_URL": "https://radio.agamarora.site/listen/kirantan/mobile.mp3",
+        "EXPO_PUBLIC_STREAM_CHARCHA_URL": "https://radio.agamarora.site/listen/charcha/mobile.mp3",
+        "EXPO_PUBLIC_STREAM_TARTAM_URL": "https://radio.agamarora.site/listen/shri_tartam_path/mobile.mp3",
+        "EXPO_PUBLIC_STREAM_VANI_URL": "https://radio.agamarora.site/listen/shri_kuljam_swroop_sahib/mobile.mp3",
+
+        "EXPO_PUBLIC_STREAM_BHAJAN_API": "https://radio.agamarora.site/api/nowplaying/Bhajan",
+        "EXPO_PUBLIC_STREAM_CHARCHA_API": "https://radio.agamarora.site/api/nowplaying/Charcha",
+        "EXPO_PUBLIC_STREAM_KIRANTAN_API": "https://radio.agamarora.site/api/nowplaying/Kirantan",
+        "EXPO_PUBLIC_STREAM_TARTAM_API": "https://radio.agamarora.site/api/nowplaying/shri_tartam_path",
+        "EXPO_PUBLIC_STREAM_VANI_API": "https://radio.agamarora.site/api/nowplaying/shri_kuljam_swroop_sahib",
+
+        "EXPO_PUBLIC_STREAM_CHARCHA_REQUEST": "https://radio.agamarora.site/public/charcha/embed-requests?theme=dark",
+        "EXPO_PUBLIC_STREAM_BHAJAN_REQUEST": "https://radio.agamarora.site/public/bhajan/embed-requests?theme=dark",
+        "EXPO_PUBLIC_STREAM_KIRANTAN_REQUEST": "https://radio.agamarora.site/public/kirantan/embed-requests?theme=dark",
+
+        "EXPO_PUBLIC_STREAM_CHARCHA_HISTORY": "https://radio.agamarora.site/public/charcha/history?theme=dark",
+        "EXPO_PUBLIC_STREAM_BHAJAN_HISTORY": "https://radio.agamarora.site/public/bhajan/history?theme=dark",
+        "EXPO_PUBLIC_STREAM_KIRANTAN_HISTORY": "https://radio.agamarora.site/public/kirantan/history?theme=dark"
+      }
     },
     "production": {
       "autoIncrement": true

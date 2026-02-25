@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, Pressable, Image } from "react-native";
+import { View, Text, Pressable, Image, ActivityIndicator } from "react-native";
 import { Entypo, Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -13,8 +13,16 @@ import PopUp from "@/components/Popup";
 export default function PlayerScreen() {
   // context variables
 
-  const { player, play, pause, API_URL, selectedTitle, imagePath } =
-    usePlayer();
+  const {
+    player,
+    play,
+    pause,
+    API_URL,
+    selectedTitle,
+    imagePath,
+    setLoading,
+    loading,
+  } = usePlayer();
 
   // states defined
 
@@ -73,6 +81,8 @@ export default function PlayerScreen() {
       setTitle("Station offline");
       setDuration(0);
       setElapsed(0);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -97,6 +107,8 @@ export default function PlayerScreen() {
 
       <View className="gap-8 flex-1 justify-end">
         <PopUp />
+
+        {loading && <ActivityIndicator size="large" color="#FB923C" />}
         <Text className="text-white text-2xl font-bold  text-center">
           {title}
         </Text>

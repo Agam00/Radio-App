@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "radioapp",
-    "slug": "radioapp",
-    "scheme": "radioapp",
+    "name": "Nijanand Radio",
+    "slug": "nijanandradio",
+    "scheme": "nijanandradio",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,13 +11,13 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#0B2A4A"
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
-      "package": "com.agam.radioapp",
+      "package": "com.ratanpuri.nijanandradio",
       "permissions": [
         "FOREGROUND_SERVICE",
         "FOREGROUND_SERVICE_MEDIA_PLAYBACK",
@@ -27,7 +27,7 @@
       ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#0000"
+        "backgroundColor": "#0B2A4A"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
@@ -44,12 +44,14 @@
           "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone.",
           "enableBackgroundPlayback": true
         }
-      ]
+      ],
+      "expo-font",
+      "expo-asset"
     ],
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "a4ec6ed7-0f39-43e9-9620-1e2a56ffbbda"
+        "projectId": "3e7fbb68-a18b-47f2-ab94-f67ec8d50fc9"
       }
     }
   }

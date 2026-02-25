@@ -1,4 +1,10 @@
-import { AudioPlayer, useAudioPlayer, setAudioModeAsync } from "expo-audio";
+import {
+  AudioPlayer,
+  useAudioPlayer,
+  setAudioModeAsync,
+  useAudioPlayerStatus,
+} from "expo-audio";
+import * as NavigationBar from "expo-navigation-bar";
 import {
   createContext,
   PropsWithChildren,
@@ -9,7 +15,9 @@ import {
 
 type PlayerContextType = {
   player: AudioPlayer;
+  setLoading: any;
   selectedTitle: any;
+  loading: any;
   setSelectedTitle: (book: any) => void;
   STREAM_URL: string;
   API_URL: string;
@@ -25,6 +33,7 @@ type PlayerContextType = {
 const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
 
 export default function PlayerProvider({ children }: PropsWithChildren) {
+  const [loading, setLoading] = useState(false);
   const [selectedTitle, setSelectedTitle] = useState(null);
   const [STREAM_URL, setStreamUrl] = useState("");
   const [API_URL, setApiUrl] = useState("");
@@ -49,19 +58,35 @@ export default function PlayerProvider({ children }: PropsWithChildren) {
       setSongRequest(process.env.EXPO_PUBLIC_STREAM_KIRANTAN_REQUEST);
       setHistory(process.env.EXPO_PUBLIC_STREAM_KIRANTAN_HISTORY);
     } else if (selectedTitle === "Shri Tartam Path") {
-      setStreamUrl(process.env.EXPO_PUBLIC_STREAM_KIRANTAN_URL);
-      setApiUrl(process.env.EXPO_PUBLIC_STREAM_KIRANTAN_API);
+      setStreamUrl(process.env.EXPO_PUBLIC_STREAM_TARTAM_URL);
+      setApiUrl(process.env.EXPO_PUBLIC_STREAM_TARTAM_API);
       setSongRequest("");
       setHistory("");
     } else if (selectedTitle === "Shri Kuljam Swroop Sahib") {
-      setStreamUrl(process.env.EXPO_PUBLIC_STREAM_KIRANTAN_URL);
-      setApiUrl(process.env.EXPO_PUBLIC_STREAM_KIRANTAN_API);
+      setStreamUrl(process.env.EXPO_PUBLIC_STREAM_VANI_URL);
+      setApiUrl(process.env.EXPO_PUBLIC_STREAM_VANI_API);
       setSongRequest("");
       setHistory("");
     }
+    setLoading(true);
   }, [selectedTitle]);
 
   const player = useAudioPlayer(STREAM_URL ? { uri: STREAM_URL } : null);
+  const playerStatus = useAudioPlayerStatus(player);
+
+  useEffect(() => {
+    NavigationBar.setVisibilityAsync("hidden");
+  }, []);
+
+  useEffect(() => {
+    if (playerStatus?.isBuffering) {
+      setLoading(true);
+    }
+
+    if (playerStatus?.playing) {
+      setLoading(false);
+    }
+  }, [playerStatus]);
 
   // Enable background + silent mode
   useEffect(() => {
@@ -77,16 +102,13 @@ export default function PlayerProvider({ children }: PropsWithChildren) {
   }, []);
 
   const play = () => {
-    // player.setActiveForLockScreen(true);
-    // player.play();
-
     if (!STREAM_URL) return; // Prevent playing if no station is selected
 
-    // 1. Append timestamp to bypass device cache and force the live edge
-    const freshStreamUrl = `${STREAM_URL}?t=${Date.now()}`;
+    // // 1. Append timestamp to bypass device cache and force the live edge
+    // const freshStreamUrl = `${STREAM_URL}?t=${Date.now()}`;
 
-    // 2. Load the fresh stream into the player
-    player.replace({ uri: freshStreamUrl });
+    // // 2. Load the fresh stream into the player
+    // player.replace({ uri: freshStreamUrl });
 
     player.setActiveForLockScreen(true);
     player.play();
@@ -112,6 +134,8 @@ export default function PlayerProvider({ children }: PropsWithChildren) {
         setStreamUrl,
         imagePath,
         setImagePath,
+        setLoading,
+        loading,
       }}
     >
       {children}
