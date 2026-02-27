@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { View, Text, Pressable, Image, ActivityIndicator } from "react-native";
 import { Entypo, Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -20,7 +20,7 @@ export default function PlayerScreen() {
     API_URL,
     selectedTitle,
     imagePath,
-    setLoading,
+
     loading,
   } = usePlayer();
 
@@ -30,61 +30,52 @@ export default function PlayerScreen() {
   const [duration, setDuration] = useState(0);
   const [elapsed, setElapsed] = useState(0);
 
-  //fetches api every 15 seconds
-  useEffect(() => {
-    fetchRadio(); // initial fetch
+  const fetchRadio = useCallback(async () => {
+    if (!API_URL) return; // Don't fetch if no station is selected
 
-    const interval = setInterval(() => {
-      fetchRadio(); // refetch every 15 sec
-    }, 15000);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  //controls the placyback bar
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setElapsed((prev) => {
-        if (prev < duration) {
-          return prev + 1;
-        }
-        return prev;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [duration]);
-
-  // fetch logic
-  const fetchRadio = async () => {
     try {
       const response = await fetch(API_URL);
-
       if (!response.ok) throw new Error("Offline");
-      const station = await response.json();
 
+      const station = await response.json();
       setTitle(station.now_playing.song.text);
       setDuration(station.now_playing.duration);
 
-      // Only update elapsed if difference is big (like new song)
-
       setElapsed((prev) => {
         const apiElapsed = station.now_playing.elapsed;
-
+        // Resync if the drift is larger than 5 seconds
         if (Math.abs(apiElapsed - prev) > 5) {
-          return apiElapsed; // resync
+          return apiElapsed;
         }
-
-        return prev; // keep smooth timer
+        return prev;
       });
     } catch {
       setTitle("Station offline");
       setDuration(0);
       setElapsed(0);
-    } finally {
-      setLoading(false);
     }
-  };
+    // Removed setLoading(false) from here so it doesn't fight the audio buffer state!
+  }, [API_URL]);
+
+  // Handle the 15-second interval
+  useEffect(() => {
+    fetchRadio(); // Fetch immediately on mount or URL change
+
+    const interval = setInterval(() => {
+      fetchRadio();
+    }, 15000);
+
+    return () => clearInterval(interval);
+  }, [fetchRadio]); // Now depends on fetchRadio, which updates when API_URL changes
+
+  // Controls the smooth playback bar locally
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setElapsed((prev) => (prev < duration ? prev + 1 : prev));
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [duration]);
 
   const playerStatus = useAudioPlayerStatus(player);
 
@@ -100,12 +91,13 @@ export default function PlayerScreen() {
       <Text className="text-white text-2xl font-bold  text-center self-center">
         {selectedTitle}
       </Text>
+
       <Image
         source={{ uri: imagePath }}
-        className="w-[95%] aspect-square rounded-[30px] self-center mt-7"
+        className="w-[70%] aspect-square rounded-[30px] self-center mt-7"
       />
 
-      <View className="gap-8 flex-1 justify-end">
+      <View className="gap-8 flex-1 justify-end mb-2 ">
         <PopUp />
 
         {loading && <ActivityIndicator size="large" color="#FB923C" />}
@@ -121,7 +113,7 @@ export default function PlayerScreen() {
             onPress={() => (playerStatus.playing ? pause() : play())}
             name={playerStatus.playing ? "pause" : "play"}
             size={50}
-            className="bg-orange-400 rounded-md "
+            className="bg-orange-400 rounded-md overflow-hidden "
           />
           <Ionicons name="play-forward" size={24} color="white" />
           <Ionicons name="play-skip-forward" size={24} color="white" />
