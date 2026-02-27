@@ -38,7 +38,7 @@ export default function PlayerScreen() {
       if (!response.ok) throw new Error("Offline");
 
       const station = await response.json();
-      setTitle(station.now_playing.song.text);
+      setTitle(station.now_playing.song.title);
       setDuration(station.now_playing.duration);
 
       setElapsed((prev) => {
@@ -94,7 +94,8 @@ export default function PlayerScreen() {
 
       <Image
         source={{ uri: imagePath }}
-        className="w-[70%] aspect-square rounded-[30px] self-center mt-7"
+        className="w-[95%] aspect-square rounded-[30px] self-center "
+        style={{ resizeMode: "cover" }}
       />
 
       <View className="gap-8 flex-1 justify-end mb-2 ">

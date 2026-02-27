@@ -8,27 +8,27 @@ export default function App() {
       <View className="flex-row flex-wrap justify-between px-2 mt-5 ">
         <BookListItem
           title="Charcha"
-          path="https://res.cloudinary.com/duz3qstmd/image/upload/v1771809104/ChatGPT_Image_Feb_23_2026_06_38_56_AM_bgckcb.png"
+          path="https://ratanpuri.in/storage/images/.Sarkar%20Shri%20Ji%20Yaaden/rt1772201101ChatGPT_Image_Feb_27_2026_06_39_06_AM_p9pa12.png"
         />
         <BookListItem
           title="Kirantan"
-          path="https://res.cloudinary.com/duz3qstmd/image/upload/v1771809180/ChatGPT_Image_Feb_23_2026_06_37_59_AM_exgbvr.png"
+          path="https://ratanpuri.in/storage/images/.Sarkar%20Shri%20Ji%20Yaaden/rt1772201101ChatGPT_Image_Feb_27_2026_03_18_00_PM_gwsavw.png"
         />
         <BookListItem
           title="Bhajan"
-          path="https://res.cloudinary.com/duz3qstmd/image/upload/v1771809179/ChatGPT_Image_Feb_23_2026_06_37_56_AM_l0g278.png"
+          path="https://ratanpuri.in/storage/images/.Sarkar%20Shri%20Ji%20Yaaden/rt1772201101ChatGPT_Image_Feb_27_2026_03_20_12_PM_ar7txf.png"
         />
         <BookListItem
           title="Shri Tartam Path"
-          path="https://res.cloudinary.com/duz3qstmd/image/upload/v1771873470/ChatGPT_Image_Feb_24_2026_12_33_36_AM_byjv5g.png"
+          path="https://ratanpuri.in/storage/images/.Sarkar%20Shri%20Ji%20Yaaden/rt1772201101ChatGPT_Image_Feb_27_2026_06_56_41_AM_big1ek.png"
         />
         <BookListItem
           title="Shri Kuljam Swroop Sahib"
-          path="https://res.cloudinary.com/duz3qstmd/image/upload/v1771873552/ChatGPT_Image_Feb_24_2026_12_35_26_AM_slcub2.png"
+          path="https://ratanpuri.in/storage/images/.Sarkar%20Shri%20Ji%20Yaaden/rt1772201101ChatGPT_Image_Feb_27_2026_06_53_26_AM_ptth0l.png"
         />
         <SinglePlayer
           title="Video Bhajans (Youtube Playlist)"
-          path="https://res.cloudinary.com/duz3qstmd/image/upload/v1771809179/ChatGPT_Image_Feb_23_2026_06_37_56_AM_l0g278.png"
+          path="https://ratanpuri.in/storage/images/.Sarkar%20Shri%20Ji%20Yaaden/rt1772201101ChatGPT_Image_Feb_27_2026_03_20_12_PM_ar7txf.png"
         />
       </View>
     </ScrollView>

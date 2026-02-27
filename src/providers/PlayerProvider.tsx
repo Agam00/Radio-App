@@ -1,3 +1,5 @@
+import { Text, TextInput } from "react-native";
+
 import {
   AudioPlayer,
   useAudioPlayer,
@@ -32,6 +34,12 @@ type PlayerContextType = {
   pause: () => void;
   isOffline: boolean; // Added so we can use it in the UI!
 };
+
+(Text as any).defaultProps = (Text as any).defaultProps || {};
+(Text as any).defaultProps.allowFontScaling = false;
+
+(TextInput as any).defaultProps = (TextInput as any).defaultProps || {};
+(TextInput as any).defaultProps.allowFontScaling = false;
 
 const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
 
@@ -159,12 +167,12 @@ export default function PlayerProvider({ children }: PropsWithChildren) {
 
   const play = () => {
     if (!STREAM_URL) return;
-    // player.setActiveForLockScreen(true);
+    player.setActiveForLockScreen(true);
     player.play();
   };
 
   const pause = () => {
-    // player.setActiveForLockScreen(false);
+    player.setActiveForLockScreen(false);
     player.pause();
   };
 
